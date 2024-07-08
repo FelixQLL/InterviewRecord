@@ -51,7 +51,31 @@
 
 ## [141] 环形链表
 
-## [20] 有效的括号
+## [20] 有效的括号 [栈]
+```
+class Solution {
+public:
+    bool isValid(string s) {
+        std::stack<char> stack;
+        std::unordered_map<char, char> dict = {
+            {')', '('},
+            {']', '['},
+            {'}', '{'}
+        };
+ 
+        for (auto c : s) {
+            if (dict.find(c) != dict.end()) {
+                if (stack.empty() || stack.top() != dict[c]) return false;
+                stack.pop();
+            } else {
+                stack.push(c);
+            }
+        }
+        
+        return stack.empty();
+    }
+};
+```
 
 ## [88] 合并两个有序数组
 
