@@ -39,7 +39,7 @@
 
 ## [53] 最大子序和
 
-## [5] 最长回文子串
+## [5] 最长回文子串 [动态规划]
 
 ## [46] 全排列
 
@@ -81,7 +81,7 @@ public:
 
 ## [92] 反转链表2
 
-## [300] 最长上升子序列
+## [300] 最长上升子序列 [动态规划（O(n2)）/二分查找O(nlogn)]
 
 ## [143] 重排链表
 
@@ -91,9 +91,29 @@ public:
 
 ## [94] 二叉树的中序遍历
 
-## [1143] 最长公共子序列
+## [1143] 最长公共子序列 [动态规划]
 
 ## [704] 二分查找
+```
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int low = 0;
+        int high = nums.size() - 1;
+        while (low <= high) {
+            int mid = low + ((high - low) / 2);
+            if (nums[mid] < target) {
+                low = mid + 1;
+            }else if (nums[mid] > target) {
+                high = mid - 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
+    }
+};
+```
 
 ## [232] 用栈实现队列
 
