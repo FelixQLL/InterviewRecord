@@ -1,4 +1,23 @@
 3. 无重复字符的最长子串 [滑动窗口]
+   ```
+   class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+      int res = 0;
+      int left = 0, right = 0;
+      std::unordered_map<char, int> map;
+      while (right < s.size()) {
+        if (map.count(s[right]) != 0) {
+            if (map[s[right]] >= left) left = map[s[right]] + 1;
+        }
+        map[s[right]] = right;
+        res = std::max(res, right - left + 1);
+        right++;
+      }
+      return res;
+    }
+};
+   ```
 25. K个一组反转链表
 206. 反转链表
 215. 数组中的第K个最大元素
