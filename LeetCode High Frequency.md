@@ -1,7 +1,7 @@
 3. 无重复字符的最长子串 [滑动窗口]
    ```
    class Solution {
-public:
+   public:
     int lengthOfLongestSubstring(string s) {
       int res = 0;
       int left = 0, right = 0;
@@ -17,7 +17,7 @@ public:
       return res;
     }
 };
-   ```
+```
 25. K个一组反转链表
 206. 反转链表
 215. 数组中的第K个最大元素
