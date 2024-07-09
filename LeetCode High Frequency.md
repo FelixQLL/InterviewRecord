@@ -46,6 +46,27 @@
 ## [23] 合并K个排序链表
 
 ## [21] 合并两个有序链表
+```
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode* pHead = new ListNode(-1);
+        ListNode* res = pHead;
+        while (list1 != nullptr && list2 != nullptr) {
+            if (list1->val <= list2->val) {
+                res->next = list1;
+                list1 = list1->next;
+            } else {
+                res->next = list2;
+                list2 = list2->next;
+            }
+            res = res->next;
+        }
+        res->next = list1 == nullptr ? list2 : list1;
+        return pHead->next;
+    }
+};
+```
 
 ## [102] 二叉树的层序遍历
 
