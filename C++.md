@@ -14,6 +14,27 @@
 2. 继承（Inheritance）：继承是子类自动共享父类数据结构和方法的机制，这使得子类对象可以达到父类对象的所有属性和行为。子类还可以添加自己的新的属性和行为。这种特性有助于减少代码重复，并且可以提高代码的可维护性和复用性。
 3. 多态（Polymorphism）：多态意味着调用哪个对象的哪个方法，取决于运行时该对象所属的类。多态可以提高代码的灵活性和可扩展性。在C++中，多态通常通过虚函数实现。
 
+# const 作用
+1. 修饰变量，说明该变量不可以被改变；
+2. 修饰指针，分为指向常量的指针（pointer to const）和自身是常量的指针（常量指针，const pointer）；
+3. 修饰引用，指向常量的引用（reference to const），用于形参类型，即避免了拷贝，又避免了函数对值的修改；
+4. 修饰成员函数，说明该成员函数内不能修改成员变量。
+
+# const char* 和char* const区别
+const char* ptr ，表示指向的是一个常量字符数据，换句话说，通过这个指针不能修改所指向的字符数据。指针本身是可以改变的，也就是说，可以使它指向不同的字符数据。
+```
+const char* ptr = "Hello";
+ptr = "World";  // 这是可以的，因为指针本身可以修改
+// *ptr = 'H';  // 这是不可以的，因为指向的内容是const
+```
+char* const 表示指针本身是常量，不能改变，但指针指向的内容是可以修改的。
+```
+char text[] = "Hello";
+char* const ptr = text;
+ptr[0] = 'h';  // 这是可以的，因为指向的内容可以修改
+// ptr = "World";  // 这是不可以的，因为指针本身是const
+```
+
 # define和const的区别有那些？
 1. 作用域不同：
    - \#define定义的常量是一个预处理宏，它在编译之前被替换，作用域为定义处到文件结束。
@@ -24,7 +45,66 @@
 3. 调试信息：
    - \#define在预处理阶段进行文本替换，因此在调试时无法查看使用#define定义的常量的值。
    - const定义的常量是真正的变量，可以被调试器识别并显示其值。
+     
+![image](https://github.com/FelixQLL/InterviewRecord/assets/28554261/521149c2-2c9e-4a5e-abb5-e1380995c859)
 
+# static 作用
+1. 静态局部变量：当 static 用于函数内部的局部变量时，该变量在函数调用结束后仍然存在，而不是每次调用时重新创建。它在程序的整个生命周期内保持存在，并且仅在第一次调用函数时初始化。
+```
+   void exampleFunction() {
+    static int count = 0;
+    count++;
+    std::cout << "Count is " << count << std::endl;
+}
+
+int main() {
+    exampleFunction(); // 输出 Count is 1
+    exampleFunction(); // 输出 Count is 2
+    exampleFunction(); // 输出 Count is 3
+    return 0;
+}
+```
+2. 静态全局变量：在文件范围内声明的静态全局变量只在定义它的文件中可见。这种用法用于限制变量的作用域，以避免命名冲突。
+```
+// file1.cpp
+static int counter = 0;
+
+// file2.cpp
+// static int counter = 0; // file2.cpp中独立的static变量
+```
+3. 静态成员变量：在类中声明的静态成员变量属于类本身，而不是属于某个对象的实例。它们在所有对象实例之间共享。静态成员变量需要在类外进行定义。
+```
+class MyClass {
+public:
+    static int count;
+};
+
+int MyClass::count = 0;
+
+int main() {
+    MyClass obj1;
+    MyClass obj2;
+    MyClass::count = 1; // 所有对象共享同一个count
+    std::cout << MyClass::count << std::endl; // 输出 1
+    return 0;
+}
+```
+4. 静态成员函数：静态成员函数属于类本身，可以在不创建类对象的情况下调用。**它们不能访问非静态成员变量**，因为非静态成员变量属于类的实例，而静态成员函数不属于任何实例。
+```
+class MyClass {
+public:
+    static void display() {
+        std::cout << "Static member function" << std::endl;
+    }
+};
+
+int main() {
+    MyClass::display(); // 调用静态成员函数
+    return 0;
+}
+```
+5. 静态成员函数与静态成员变量结合使用：静态成员函数通常用于操作静态成员变量。
+   
 # C++中struct和class有什么区别？
 1. 默认的访问权限：
    - 在struct中，默认的成员变量和成员函数的访问权限是public的，意味着它们可以被外部访问。
