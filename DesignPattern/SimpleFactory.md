@@ -52,12 +52,14 @@ class ControlFactory : public common::Singleton<ControlFactory> {
 int main() {
 ControlFactory factory;
 factory.create();
+}
 ```
 工厂模式继承单例模式
 ``` C++
 int main() {
 auto json_tab = ControlFactory::Instance().GenerateTabJsonValue(name, link_field, selected_index, vec_text,
                                                                     enable_bind, Binding<bool>());
+}
 ```
 
 ## 工厂类继承单例模式优缺点
