@@ -126,6 +126,7 @@ void thread2() {
    - 支持多种数据类型：参数可以是整数、浮点数、字符串、布尔值、列表和字典等。
    - 生命周期与 ROS Master 一致：参数服务器与 ROS Master 共享生命周期，当 ROS Master 关闭时，参数服务器也会关闭。
 ##### 总结：
+**通信过程：发布者/订阅者（客户端/服务端）在Master注册 -> Master根据name匹配 -> 发布者/订阅者（客户端/服务端）建立TCP/UDP网络连接 -> 通信**
 ROS通信基于TCP/UDP，ROS Param 不涉及TCP/UDP通信
 
 # ROS Topic 和 Service的区别
