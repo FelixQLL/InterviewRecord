@@ -1,6 +1,6 @@
 ![image](https://github.com/FelixQLL/InterviewRecord/assets/28554261/5ae18799-ab10-4215-a558-02161d121e05)
 
-```
+```C++
 class ThreadPool {
  public:
   // 构造函数，传入线程数
@@ -133,7 +133,7 @@ cv.wait(lock, [] { return !dataQueue.empty() || finished; });
 
 **空闲超时回收：** 如果一个线程在指定的 idleTimeout 时间内没有接收到任务，并且线程池中线程数量超过最小线程数，该线程将被回收。
 
-```
+``` C++
 #ifndef THREADPOOL_H
 #define THREADPOOL_H
 
