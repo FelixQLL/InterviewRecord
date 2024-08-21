@@ -480,6 +480,46 @@ C++标准库提供了两种主要的智能指针：`std::unique_ptr`和`std::sha
 - 当一个 std::shared_ptr 实例销毁（例如出作用域或赋值新对象）时，共享引用计数 shared_count 会减少。
 - 如果 shared_count 减少到 0，表示没有 shared_ptr 实例持有该对象，控制块会删除实际对象。
 - 如果同时弱引用计数 weak_count 也为 0，表示没有 weak_ptr 实例持有该对象的弱引用，控制块会被删除。
+
+## shared_ptr使用注意
+**1.避免循环引用：** 
+  -**问题：** 如果两个或多个对象相互引用对方，并且这些引用都是通过 shared_ptr 实现的，那么这些对象将永远不会被销毁，因为它们的引用计数永远不会降为零。这会导致内存泄漏。
+  -**解决方案：** 使用 std::weak_ptr 打破循环引用。weak_ptr 不会增加对象的引用计数，从而可以安全地引用其他对象。
+``` C++
+struct B;
+
+struct A {
+    std::shared_ptr<B> b_ptr;
+};
+
+struct B {
+    std::shared_ptr<A> a_ptr;
+};
+
+void example() {
+    auto a = std::make_shared<A>();
+    auto b = std::make_shared<B>();
+    a->b_ptr = b;
+    b->a_ptr = a; // 形成循环引用，a 和 b 永远不会被销毁
+
+    // 改进方式
+    struct B {
+        std::weak_ptr<A> a_ptr; // 使用 weak_ptr 打破循环
+    };
+}
+```
+
+**2. 避免直接从原始指针构造多个 shared_ptr:**
+- **问题：** 如果你使用同一个原始指针创建了多个 shared_ptr，会导致多个 shared_ptr 各自维护自己的引用计数器，从而在销毁时尝试多次删除同一个对象，导致未定义行为。
+- **解决方案：** 应确保每个原始指针只被一个 shared_ptr 管理，使用 std::make_shared 来创建 shared_ptr 以确保安全。
+``` C++
+int* rawPtr = new int(10);
+std::shared_ptr<int> sp1(rawPtr);
+std::shared_ptr<int> sp2(rawPtr); // 错误！两个 shared_ptr 会尝试删除同一个指针
+
+// 正确的做法
+auto sp1 = std::make_shared<int>(10); // 推荐使用 make_shared
+```
    
 # lambda表达式 
 lambda 表达式是一种简洁的表示法，用于定义匿名函数lambda 表达式可以在需要的地方内联定义，并且可以捕获周围作用域中的变量。
