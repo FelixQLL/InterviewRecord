@@ -443,6 +443,10 @@ final：
 4. 使用智能指针
 
 # C++的智能指针及其原理
+![image](https://github.com/user-attachments/assets/82f47e99-0276-4174-99f2-a259a159bd77)
+![image](https://github.com/user-attachments/assets/ed388d8e-2de6-4d1c-b492-4842419acf2c)
+
+
 ### 智能指针简介
 C++的智能指针是一种用于管理动态分配内存的对象，它们提供了自动内存管理机制，避免了手动释放内存的繁琐和潜在的内存泄漏问题。
 
